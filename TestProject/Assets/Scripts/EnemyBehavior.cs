@@ -13,6 +13,7 @@ public class EnemyBehavior : MonoBehaviour {
     public float fireRate;
     private float nextFire;
 
+    //When enemy is instantiated, it will start moving downwards at specified speed
     private void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -21,6 +22,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     private void Update()
     {
+        //Same as player firing except does not rely on keypress, just fire rate
         if (Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
@@ -28,6 +30,7 @@ public class EnemyBehavior : MonoBehaviour {
         }
     }
 
+    //If hit by player bullet, destroy
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "Bullet(Clone)")

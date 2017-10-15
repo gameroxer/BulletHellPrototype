@@ -11,8 +11,11 @@ public class EnemyRandomSpawn : MonoBehaviour {
 
     private void Update()
     {
+        //Basic spawning: if player inputs "1", then spawns 1 enemy
+        // If player inputs "Q", spawns a wave using the SpawnWave function
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            //Generates random horizontal spawn coordinate, then instantiates enemy at top of screen
             float spawnPoint = Random.Range(-2.5f, 2.5f);
             Instantiate(enemy, new Vector3(spawnPoint, 4.5f, 0), Quaternion.identity);
         }
@@ -22,6 +25,7 @@ public class EnemyRandomSpawn : MonoBehaviour {
         }
     }
 
+    //Function to spawn wave - needs to be coroutine to run alongside game
     IEnumerator SpawnWave()
     {
         for (int i = 0; i < EnemyCount; i++)

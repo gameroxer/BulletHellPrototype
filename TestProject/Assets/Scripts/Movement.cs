@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script defines player movement/control
+
 [System.Serializable]
 public class Boundary
 {
+    //Defines boundary for player movement
     public float xMin, xMax, yMin, yMax;
 }
 
@@ -28,6 +31,7 @@ public class Movement : MonoBehaviour {
 
     private void Update()
     {
+        //If player inputs Fire1, if time is greater than fire interval, creates bullet
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
@@ -42,6 +46,8 @@ public class Movement : MonoBehaviour {
 
         Vector2 moveVec = new Vector2(moveH, moveV).normalized;
 
+        //If player inputs Spacebar during movement, dash in the current moving direction
+        //Otherwise, move at normal speed
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb2d.velocity = moveVec * speed * dodgeMult;
@@ -51,6 +57,7 @@ public class Movement : MonoBehaviour {
             rb2d.velocity = moveVec * speed;
         }
 
+        //Clamps player position so if you try to move outside the screen you can't
         rb2d.position = new Vector2
             (
                 Mathf.Clamp(rb2d.position.x, boundary.xMin, boundary.xMax),
@@ -59,6 +66,7 @@ public class Movement : MonoBehaviour {
 
     }
 
+    //If player collides with enemy bullet or enemy, destroys player
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.name == "EnemyBullet(Clone)" || other.name == "Enemy1(Clone)")
